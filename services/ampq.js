@@ -1,8 +1,8 @@
 import amqplib from "amqplib";
 
 const QUEUE = "tasks";
+let usersLog = [];
 let channel = null;
-const log = []
 
 (async () => {
     try {
@@ -15,7 +15,7 @@ const log = []
         channel.consume(QUEUE, message => {
             if (message !== null) {
                 const content = message.content.toString();
-                log.push(content);
+                usersLog.push(content);
                 channel.ack(message);
             }
         });
@@ -26,5 +26,5 @@ const log = []
 })();
 
 export function getLog() {
-    return log;
+    return usersLog;
 };
